@@ -1,0 +1,14 @@
+#logger
+logging:
+  file:
+    name: logs.txt
+    clean-history-on-start: true
+  level:
+    org:
+      hibernate: ERROR
+      springframework:
+        web: DEBUG
+
+#server
+server:
+  port: 8080
