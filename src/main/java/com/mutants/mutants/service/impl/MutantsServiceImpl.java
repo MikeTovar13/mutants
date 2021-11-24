@@ -1,6 +1,6 @@
 package com.mutants.mutants.service.impl;
 
-import com.mutants.mutants.logic.MutantsLogic;
+import com.mutants.mutants.logic.DNA;
 import com.mutants.mutants.model.ModelDNA;
 import com.mutants.mutants.service.MutantsService;
 import com.mutants.mutants.utils.Constants;
@@ -17,14 +17,14 @@ import java.util.Map;
 @Service
 public class MutantsServiceImpl implements MutantsService {
 
-    private MutantsLogic mutantsLogic = new MutantsLogic();
+    private DNA dnaObject = new DNA();
 
     @Override
     public ResponseEntity<Map<String, Object>> verifyADN(ModelDNA dna) {
 
         log.info("Checking DNA strand: " + Arrays.toString(dna.getDna()));
 
-        if (mutantsLogic.isMutant(dna)) {
+        if (dnaObject.isMutant(dna.getDna())) {
             return new ResponseEntity<>(
                     new ResponseObject(Constants.HTTP_STATUS_200, "DNA belongs to a mutant")
                             .mapObject(), HttpStatus.ACCEPTED);
