@@ -8,6 +8,6 @@ import java.util.Map;
 
 public interface MutantsService {
 
-    ResponseEntity<Map<String, Object>> verifyADN(ModelDNA dna) throws IOException;
+    ResponseEntity<Map<String, Object>> verifyADN(ModelDNA dna) throws Exception;
 
 }

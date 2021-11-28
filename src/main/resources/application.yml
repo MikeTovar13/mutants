@@ -12,3 +12,20 @@ logging:
 #server
 server:
   port: 8080
+
+#database
+
+bd:
+  user: "postgres"
+  password: "root"
+  connectionString: "jdbc:postgresql://localhost:5432/storagedna"
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/storagedna"
+    username: "postgres"
+    password: "root"

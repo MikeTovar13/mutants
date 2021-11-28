@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'org.asciidoctor.convert' version '1.5.8'
 	id 'java'
+	id 'jacoco'
 }
 
 group = 'com.mutants'
@@ -24,29 +25,44 @@ ext {
 }
 
 dependencies {
-	//implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	//implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-web-services'
 	implementation 'io.springfox:springfox-swagger2:3.0.0'
 	implementation 'org.springframework.boot:spring-boot-configuration-processor:2.5.6'
 	implementation 'org.springdoc:springdoc-openapi:1.5.12'
+	implementation 'org.postgresql:postgresql:42.3.1'
+	implementation 'junit:junit:4.13.1'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'io.projectreactor:reactor-test'
-	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	implementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.jacoco:org.jacoco.agent:0.8.7'
+	testImplementation 'org.apache.commons:commons-lang3:3.9'
 }
 
 jar {
 	enabled = false
 }
 
+jacoco {
+	toolVersion = "0.8.7"
+}
+
+jacocoTestReport {
+	reports {
+		xml.required = false
+		html.required = false
+		xml.destination file("${buildDir}/coverage.xml")
+	}
+}
+
 test {
-	outputs.dir snippetsDir
-	useJUnitPlatform()
+	jacoco {
+		destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+		classDumpDir = file("$buildDir/jacoco/classpathdumps")
+	}
 }
 
 asciidoctor {

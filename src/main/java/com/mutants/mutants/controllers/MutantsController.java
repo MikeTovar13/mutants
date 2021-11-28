@@ -34,6 +34,11 @@ public class MutantsController {
     }
 
 
+    /**
+     *
+     * @param dna
+     * @return
+     */
     @PostMapping("mutants")
     public ResponseEntity<Map<String, Object>> receiveDNA(
             @RequestBody ModelDNA dna) {
@@ -41,7 +46,7 @@ public class MutantsController {
         try {
             log.info("Init request");
             return mutantsService.verifyADN(dna);
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.info("Failed request, check input data");
             return new ResponseEntity<>(
                     new ResponseObject(Constants.HTTP_STATUS_500, Constants.MESSAGE.concat(e.toString()))

@@ -59,20 +59,21 @@ public class Matrix {
 
         return columns;
     }
-/*
-    public char[][] getDiagonals(){
+
+  /*  public char[][] getDiagonals(){
         char[][] diagonalsF = new char[this.rows+this.cols - 1][];
-        char[][] diagonalsB = new char[this.rows+this.cols - 1][];
+        //char[][] diagonalsB = new char[this.rows+this.cols - 1][];
 
         for (int i = 0; i< this.rows; i++){
             for (int j=0; j< this.cols; j++) {
-                diagonalsF[i+j] =
+
+                diagonalsF[i+j] = new char[];
             }
 
         }
         return  diagonals;
-    }
-*/
+    }*/
+
 
     public char[][] getMatrix() {
         return matrix;
