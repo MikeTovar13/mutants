@@ -12,9 +12,9 @@ public class DNA {
     public static final int MIN_VALUE = 3;
 
     /**
-     *
-     * @param dna
-     * @return
+     * Function principal from verify DNA strand
+     * @param dna Strands in strings received for service
+     * @return True or False (True mutant - False human)
      */
     public Boolean isMutant (String[] dna) throws Exception {
 
@@ -29,9 +29,9 @@ public class DNA {
     }
 
     /**
-     *
-     * @param dna
-     * @return
+     * Function convert strand string to array char
+     * @param dna Strands in strings received for service
+     * @return New matrix generate for init tasks
      */
     private char[][] convertToArrayChar(String[] dna) {
 
@@ -40,14 +40,13 @@ public class DNA {
         for (int i = 0; i < matrix.length; i++) {
             matrix[i] = dna[i].toCharArray();
         }
-
         return matrix;
     }
 
     /**
-     *
-     * @param matrix
-     * @return
+     * Function verify values in the matrix with allow letters
+     * @param matrix matrix to evaluate characters
+     * @return True or False accord to input data
      */
     private Boolean isValidStrand(Matrix matrix) {
 
@@ -67,21 +66,24 @@ public class DNA {
     }
 
     /**
-     *
-     * @param matrix
-     * @return
+     * Function to evaluate repeated characters in line
+     * @param matrix matrix to evaluate
+     * @return True if repeated is greater to 4
      */
     private boolean checkRowsColumnsAndDiagonals(Matrix matrix) {
 
         char[][] rows = matrix.getMatrix();
         char[][] cols = matrix.transposeMatrix();
-        char[][] diags = matrix.getDiagonals();
+        char[][] diagonalsForward = matrix.getDiagonals(true);
+        char[][] diagonalsBackward = matrix.getDiagonals(false);
         int repeated = 0;
 
         for (int i = 0; i < matrix.getRows(); i++) {    // El primer índice recorre las filas.
             repeated += isRepeated(rows[i]);
             repeated += isRepeated(cols[i]);
-            repeated += isRepeated(diags[i]);
+            repeated += isRepeated(diagonalsForward[i]);
+            repeated += isRepeated(diagonalsBackward[i]);
+
             if (repeated > 1){
                 return true;
             }
@@ -90,9 +92,9 @@ public class DNA {
     }
 
     /**
-     *
-     * @param sequence
-     * @return
+     * Function for evaluate just one of line and verified repeated
+     * @param sequence Row, Column or diagonal to evaluate
+     * @return True if found 2 chains of characters greater to 4 in the lines
      */
     private int isRepeated(char[] sequence){
 

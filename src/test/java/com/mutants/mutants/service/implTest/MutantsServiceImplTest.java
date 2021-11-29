@@ -21,7 +21,7 @@ import java.util.Map;
 public class MutantsServiceImplTest {
 
     public static final String[] DNA_MUTANT = new String[] {"ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"};
-    public static final String[] DNA_HUMAN = new String[] {"ATGCGA","CAGTGC","TTATGT","AGAAGG","CCTCTA","TCACTG"};
+    public static final String[] DNA_HUMAN = new String[] {"ATGCGA","CTGTGC","TTATGT","AGAAGG","CCTCTA","TCACTG"};
     public static final String[] DNA_INVALID_DATA = new String[] {"ATGCGA","CAGTGC","TTATGT","AGAAGG","CCOCTA","TCACTG"};
 
     @Mock
@@ -68,6 +68,8 @@ public class MutantsServiceImplTest {
         ModelDNA modelDNA = new ModelDNA(DNA_MUTANT);
         mutantsService.verifyADN(modelDNA);
     }
+
+
 
     @Test
     public void consultStatsOk() {

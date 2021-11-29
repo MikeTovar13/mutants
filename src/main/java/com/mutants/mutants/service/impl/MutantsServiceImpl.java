@@ -29,38 +29,50 @@ public class MutantsServiceImpl implements MutantsService {
         this.personsRepository = pr;
     }
 
+    /**
+     * Function for validate dna and save in DB
+     * @param dna model received for service
+     * @return Response entity with 200 is a mutant, 403 is a human or 422 if dna is invalid
+     * @throws Exception
+     */
     @Override
     public ResponseEntity<Map<String, Object>> verifyADN(ModelDNA dna) throws Exception {
 
         log.info("Checking DNA strand: " + Arrays.toString(dna.getDna()));
-
+        boolean isMutant;
+        ResponseObject object = new ResponseObject();
+        HttpStatus status = HttpStatus.OK;
         try {
-            boolean isMutant = dnaObject.isMutant(dna.getDna());
+            isMutant = dnaObject.isMutant(dna.getDna());
             Persons p = new Persons(dna.toString(), isMutant);
-
-            try {
-                personsRepository.save(p);
-            } catch (IllegalArgumentException e) {
-                log.info("This DNA was already register in Database" + e.toString());
+            personsRepository.save(p);
+            if (isMutant){
+                object.setMessage("DNA belongs to a mutant");
+                object.setStatus(Constants.HTTP_STATUS_200);
+                status = HttpStatus.OK;
+            }else{
+                object.setMessage("DNA doesn't belong to a mutant");
+                object.setStatus(Constants.HTTP_STATUS_403);
+                status = HttpStatus.FORBIDDEN;
             }
 
-            if (isMutant) {
-                return new ResponseEntity<>(
-                        new ResponseObject(Constants.HTTP_STATUS_200, "DNA belongs to a mutant")
-                                .mapObject(), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(
-                        new ResponseObject(Constants.HTTP_STATUS_403, "DNA doesn't belong to a mutant")
-                                .mapObject(), HttpStatus.FORBIDDEN);
-            }
-        } catch (Exception e) {
+        }catch (IllegalArgumentException e) {
+            log.info("This DNA was already register in Database" + e.toString());
+        }catch (Exception e) {
             log.info(e.toString());
-            return new ResponseEntity<>(
-                    new ResponseObject(Constants.HTTP_STATUS_422, e.getMessage())
-                            .mapObject(), HttpStatus.UNPROCESSABLE_ENTITY);
-        }
+            object.setMessage(e.getMessage());
+            object.setStatus(Constants.HTTP_STATUS_422);
+            status = HttpStatus.UNPROCESSABLE_ENTITY;
+
+        }finally{
+            return  new ResponseEntity<>(object.mapObject(), status);
+         }
     }
 
+    /**
+     * Function for get data in DB and response service
+     * @return Response entity with JSON for history data in DB
+     */
     @Override
     public ResponseEntity<Map<String, Object>> consultStats() {
 

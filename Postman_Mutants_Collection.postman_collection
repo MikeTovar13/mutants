@@ -1,0 +1,156 @@
+{
+	"info": {
+		"_postman_id": "f32ea294-0a88-41f7-b1a6-07d29aaf8e78",
+		"name": "Mutants Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Local Health Chech",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/healthCheck",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"healthCheck"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Local Mutants",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dna\":[\"ATGCGA\",\"CAGTGC\",\"TTATGT\",\"AGAAGG\",\"CCCCTA\",\"TCACTG\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/mutants",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"mutants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Local Stats",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/stats",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deploy Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://black-alpha-333602.uc.r.appspot.com/api/healthCheck",
+					"protocol": "https",
+					"host": [
+						"black-alpha-333602",
+						"uc",
+						"r",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"api",
+						"healthCheck"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deploy Mutants",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dna\":[\"ATGCGA\",\"CAGTGC\",\"TTATGT\",\"AGAAGG\",\"CCCCTA\",\"TCACTG\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://black-alpha-333602.uc.r.appspot.com/api/mutants",
+					"protocol": "https",
+					"host": [
+						"black-alpha-333602",
+						"uc",
+						"r",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"api",
+						"mutants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deploy Stats",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://black-alpha-333602.uc.r.appspot.com/api/stats",
+					"protocol": "https",
+					"host": [
+						"black-alpha-333602",
+						"uc",
+						"r",
+						"appspot",
+						"com"
+					],
+					"path": [
+						"api",
+						"stats"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

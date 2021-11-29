@@ -67,6 +67,11 @@ jacocoTestReport {
 		html.required = false
 		xml.destination file("${buildDir}/coverage.xml")
 	}
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: ['com/mutants/mutants/utils/SwaggerConfig'])
+		}))
+	}
 }
 
 test {
