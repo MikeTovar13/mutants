@@ -22,6 +22,6 @@ spring:
       ddl-auto: create
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: "jdbc:postgresql://localhost:5432/storagedna"
+    url: "jdbc:postgresql://35.232.211.162:5432/mutants"
     username: "postgres"
-    password: "root"
+    password: "8mjNDc5cbKfIvL0c"

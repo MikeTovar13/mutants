@@ -1,0 +1,4 @@
+runtime: java11 # or another supported version
+
+instance_class: F2
+
