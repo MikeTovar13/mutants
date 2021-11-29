@@ -5,12 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-
 @Repository
 public interface PersonsRepository extends JpaRepository<Persons, Integer> {
 
-   // @Query("select count(*) from persons where is_mutant=1")
-    //public Integer countMutant();
+   @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM persons WHERE is_mutant = true")
+   public long countMutant();
+
+   @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM persons WHERE is_mutant = false")
+   public long countNotMutant();
+
 }

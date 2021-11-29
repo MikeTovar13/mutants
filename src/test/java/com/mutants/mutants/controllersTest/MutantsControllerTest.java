@@ -30,8 +30,6 @@ public class MutantsControllerTest {
     @InjectMocks
     private MutantsController mutantsController;
 
-    @Test
-    public void contextLoads() {}
 
     @Test
     public void checkHealtOk() {
@@ -47,10 +45,7 @@ public class MutantsControllerTest {
                 .thenReturn(new ResponseEntity<>(HttpStatus.OK));
         ModelDNA modelDNA = new ModelDNA(OK_DNA);
 
-        System.out.println(Arrays.toString(OK_DNA));
-
         ResponseEntity<?> controllerResponse = mutantsController.receiveDNA(modelDNA);
-        System.out.println("-------------------------" + controllerResponse);
         Assert.assertEquals(200, controllerResponse.getStatusCodeValue());
     }
 
@@ -58,14 +53,20 @@ public class MutantsControllerTest {
     public void receiveDNAFailed() throws Exception {
 
         Mockito.when(mutantsService.verifyADN(Mockito.any(ModelDNA.class)))
-                .thenReturn(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+                .thenThrow(new Exception());
         ModelDNA modelDNA = new ModelDNA(FAILED_DNA);
 
-        System.out.println(Arrays.toString(OK_DNA));
-
         ResponseEntity<?> controllerResponse = mutantsController.receiveDNA(modelDNA);
-        System.out.println("-------------------------" + controllerResponse);
         Assert.assertEquals(500, controllerResponse.getStatusCodeValue());
+    }
+
+    @Test
+    public void statsGeneralsOk() {
+
+        Mockito.when(mutantsService.consultStats()).thenReturn(new ResponseEntity<>(HttpStatus.OK));
+
+        ResponseEntity<?> controllerResponse = mutantsController.generalStats();
+        Assert.assertEquals(200, controllerResponse.getStatusCodeValue());
     }
 
 }

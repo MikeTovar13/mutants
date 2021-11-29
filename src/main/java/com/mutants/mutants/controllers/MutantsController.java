@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.Map;
 
 @CrossOrigin(origins = "*")
@@ -25,7 +23,7 @@ public class MutantsController {
     }
 
     /**
-     * Funtion for requests for state of general service
+     * Function for requests for state of general service
      * @return Response string with program version
      */
     @GetMapping("healthCheck")
@@ -35,9 +33,9 @@ public class MutantsController {
 
 
     /**
-     *
+     * Function for receive DNA Strand to test
      * @param dna
-     * @return
+     * @return Response object with validation DNA (Is mutant or not)
      */
     @PostMapping("mutants")
     public ResponseEntity<Map<String, Object>> receiveDNA(
@@ -52,5 +50,10 @@ public class MutantsController {
                     new ResponseObject(Constants.HTTP_STATUS_500, Constants.MESSAGE.concat(e.toString()))
                             .mapObject(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("stats")
+    public ResponseEntity<Map<String, Object>> generalStats() {
+        return mutantsService.consultStats();
     }
 }

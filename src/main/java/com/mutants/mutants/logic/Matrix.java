@@ -1,27 +1,12 @@
 package com.mutants.mutants.logic;
 
+import java.util.ArrayList;
+
 public class Matrix {
 
     private char[][] matrix;
-
-    public int getCols() {
-        return cols;
-    }
-
-    public void setCols(int cols) {
-        this.cols = cols;
-    }
-
-    public int getRows() {
-        return rows;
-    }
-
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
-
-    private int cols = 0;
-    private int rows = 0;
+    private int cols;
+    private int rows;
 
     public Matrix (char[][] matrix) {
         this.matrix = matrix;
@@ -29,15 +14,24 @@ public class Matrix {
         this.cols = matrix[0].length;
     }
 
+    public int getCols() {
+        return cols;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
     /**
      *
      * @return
      */
     public Boolean isSquare() {
+        boolean square = false;
         if (this.cols == this.rows) {
-            return true;
+            square = true;
         }
-        return false;
+        return square;
     }
 
     /**
@@ -60,26 +54,34 @@ public class Matrix {
         return columns;
     }
 
-  /*  public char[][] getDiagonals(){
-        char[][] diagonalsF = new char[this.rows+this.cols - 1][];
-        //char[][] diagonalsB = new char[this.rows+this.cols - 1][];
+    public char[][] getDiagonals(){
+
+        ArrayList[] diagonalsF = new ArrayList[this.rows +this.cols-1];
+        char[][] diagonalsB = new char[this.rows+this.cols - 1][];
 
         for (int i = 0; i< this.rows; i++){
             for (int j=0; j< this.cols; j++) {
-
-                diagonalsF[i+j] = new char[];
+                if (diagonalsF[i+j] == null){
+                    diagonalsF[i+j] = new ArrayList<Character>();
+                }
+                diagonalsF[i+j].add(this.matrix[i][j]);
             }
 
         }
-        return  diagonals;
-    }*/
+        for (int i =0; i<diagonalsF.length;i++){
+            diagonalsB[i] = new char[diagonalsF[i].size()];
+            for (int j=0; j< diagonalsF[i].size();j++){
+
+                diagonalsB[i][j] = (char)diagonalsF[i].get(j);
+
+            }
+        }
+        return  diagonalsB;
+    }
 
 
     public char[][] getMatrix() {
         return matrix;
     }
 
-    public void setMatrix(char[][] matrix) {
-        this.matrix = matrix;
-    }
 }

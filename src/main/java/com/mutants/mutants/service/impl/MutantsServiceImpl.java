@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 @Log4j2
@@ -29,20 +30,20 @@ public class MutantsServiceImpl implements MutantsService {
     }
 
     @Override
-    public ResponseEntity<Map<String, Object>> verifyADN(ModelDNA dna) {
+    public ResponseEntity<Map<String, Object>> verifyADN(ModelDNA dna) throws Exception {
 
         log.info("Checking DNA strand: " + Arrays.toString(dna.getDna()));
 
         try {
             boolean isMutant = dnaObject.isMutant(dna.getDna());
             Persons p = new Persons(dna.toString(), isMutant);
-            try{
+
+            try {
                 personsRepository.save(p);
-             //   log.info("ppppppppppppppppppppppp" + personsRepository.countMutant());
-
-            }catch (Exception e){
-
+            } catch (IllegalArgumentException e) {
+                log.info("This DNA was already register in Database" + e.toString());
             }
+
             if (isMutant) {
                 return new ResponseEntity<>(
                         new ResponseObject(Constants.HTTP_STATUS_200, "DNA belongs to a mutant")
@@ -53,9 +54,27 @@ public class MutantsServiceImpl implements MutantsService {
                                 .mapObject(), HttpStatus.FORBIDDEN);
             }
         } catch (Exception e) {
+            log.info(e.toString());
             return new ResponseEntity<>(
                     new ResponseObject(Constants.HTTP_STATUS_422, e.getMessage())
                             .mapObject(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
+    }
+
+    @Override
+    public ResponseEntity<Map<String, Object>> consultStats() {
+
+        long mutants = personsRepository.countMutant();
+        long humans = personsRepository.countNotMutant();
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("count_mutant_dna", mutants);
+        data.put("count_human_dna", humans);
+        if (humans == 0) {
+            humans = 1;
+        }
+        data.put("ratio", (float)mutants/(float)humans);
+
+        return new ResponseEntity<>(data, HttpStatus.OK);
     }
 }
