@@ -8,11 +8,14 @@ import com.mutants.mutants.service.MutantsService;
 import com.mutants.mutants.utils.Constants;
 import com.mutants.mutants.utils.ResponseObject;
 import lombok.extern.log4j.Log4j2;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +48,6 @@ public class MutantsServiceImpl implements MutantsService {
         try {
             isMutant = dnaObject.isMutant(dna.getDna());
             Persons p = new Persons(dna.toString(), isMutant);
-            personsRepository.save(p);
             if (isMutant){
                 object.setMessage("DNA belongs to a mutant");
                 object.setStatus(Constants.HTTP_STATUS_200);
@@ -55,9 +57,10 @@ public class MutantsServiceImpl implements MutantsService {
                 object.setStatus(Constants.HTTP_STATUS_403);
                 status = HttpStatus.FORBIDDEN;
             }
+            personsRepository.save(p);
 
-        }catch (IllegalArgumentException e) {
-            log.info("This DNA was already register in Database" + e.toString());
+        }catch (DataIntegrityViolationException e) {
+            log.info("This DNA was already register in Database " + e.toString());
         }catch (Exception e) {
             log.info(e.toString());
             object.setMessage("This DNA was already register in Database - Error saved: " + e.getMessage());
