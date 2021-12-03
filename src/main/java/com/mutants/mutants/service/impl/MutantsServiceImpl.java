@@ -60,7 +60,7 @@ public class MutantsServiceImpl implements MutantsService {
             log.info("This DNA was already register in Database" + e.toString());
         }catch (Exception e) {
             log.info(e.toString());
-            object.setMessage(e.getMessage());
+            object.setMessage("This DNA was already register in Database - Error saved: " + e.getMessage());
             object.setStatus(Constants.HTTP_STATUS_422);
             status = HttpStatus.UNPROCESSABLE_ENTITY;
 
